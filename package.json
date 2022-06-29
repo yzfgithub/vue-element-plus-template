@@ -8,8 +8,16 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "axios": "^0.27.2",
+    "babel-plugin-component": "^1.1.1",
     "core-js": "^3.6.5",
-    "vue": "^3.0.0"
+    "element-plus": "^2.2.6",
+    "js-cookie": "^3.0.1",
+    "unplugin-auto-import": "^0.9.1",
+    "unplugin-vue-components": "^0.20.1",
+    "vue": "^3.0.0",
+    "vue-router": "^4.0.16",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.9",

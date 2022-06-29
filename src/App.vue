@@ -1,15 +1,46 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <Layout :menuList="menuList">
+    <router-view></router-view>
+  </Layout>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Layout from '@/components/Layout.vue'
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
+  components:{ Layout },
+  setup() {
+    const menuList = [{
+      path: '/nav1',
+      name: '导航一',
+      index: '1',
+      children: [{
+        path: '/page1',
+        name: '标题一',
+        index: '1-1'
+      },{
+        path: '/page2',
+        name: '标题二',
+        index: '1-2'
+      }]
+    },{
+      path: '/nav2',
+      name: '导航二',
+      index: '2',
+      children: [{
+        path: '/page3',
+        name: '标题三',
+        index: '2-1'
+      },{
+        path: '/page4',
+        name: '标题四',
+        index: '2-2'
+      }]
+    }]
+    return {
+      menuList
+    }
   }
 }
 </script>
@@ -21,6 +52,9 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+body{
+  margin: 0;
+  padding: 0;
 }
 </style>
