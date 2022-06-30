@@ -80,6 +80,6 @@ export default {
 <style scoped>
 
 ::v-deep .el-menu .is-active {
-  background: #efefef
+  /* background: #efefef */
 }
 </style>

@@ -1,15 +1,21 @@
 <template>
-  <Layout :menuList="menuList">
-    <router-view></router-view>
-  </Layout>
+  <el-config-provider :locale="locale">
+    <Layout :menuList="menuList">
+      <router-view></router-view>
+    </Layout>
+  </el-config-provider>
+
 </template>
 
 <script>
 import Layout from '@/components/Layout.vue'
 
+import { ElConfigProvider } from 'element-plus'
+import zhCn from 'element-plus/lib/locale/lang/zh-cn'
+
 export default {
   name: 'App',
-  components:{ Layout },
+  components:{ Layout, ElConfigProvider },
   setup() {
     const menuList = [{
       path: '/nav1',
@@ -23,6 +29,10 @@ export default {
         path: '/page2',
         name: '标题二',
         index: '1-2'
+      },{
+        path: '/template',
+        name: 'template',
+        index: '1-3'
       }]
     },{
       path: '/nav2',
@@ -39,7 +49,7 @@ export default {
       }]
     }]
     return {
-      menuList
+      menuList, locale: zhCn,
     }
   }
 }
@@ -56,5 +66,10 @@ export default {
 body{
   margin: 0;
   padding: 0;
+}
+.divide-block{
+  width: 100%;
+  height: 20px;
+  background: rgba(128, 128, 128, 0.14);
 }
 </style>

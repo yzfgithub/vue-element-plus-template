@@ -69,7 +69,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .header{
     background: green;
@@ -78,15 +77,17 @@ export default {
 }
 .container-box {
     min-height: calc(100vh - 60px);
+    background: rgba(128, 128, 128, 0.14)
 }
 .left-menu{
     color: white;
-    background: lightcoral;
+    background: #ffffff;
     margin-top: 20px;
     margin: 20px 0;
 }
 .container {
-    background: blue;
+    background: #ffffff;
     margin: 20px;
+    padding: 0;
 }
 </style>
