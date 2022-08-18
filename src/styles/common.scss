@@ -1,0 +1,117 @@
+* {
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul {
+  padding: 0;
+  margin: 0;
+}
+
+span,
+ul,
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+img {
+  border: 0 none;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
+  font-family: 'Helvetica Neue',
+    Helvetica,
+    'PingFang SC',
+    'Hiragino Sans GB',
+    'Microsoft YaHei',
+    '微软雅黑',
+    Arial,
+    sans-serif;
+  background-color: white;
+}
+body::-webkit-scrollbar {
+  display: none; /* Chrome Safari */
+}
+
+body {
+  scrollbar-width: none; /* firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+iframe {
+  border: 0 none;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+/**************************** common *************************************/
+
+.clearfix {
+  zoom: 1;
+}
+
+.clearfix::after {
+  display: block;
+  clear: both;
+  font-size: 0;
+  line-height: 0;
+  content: '';
+}
+
+/**************************** component *************************************/
+
+$color: #406cff;
+.content {
+  padding: 24px 32px;
+  margin-top: 20px;
+  background: #ffffff;
+  border-radius: 4px;
+}
+$delete: #ff4d4f;
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #cccccc;
+  //滑块部分
+  border-radius: 5px;
+}
+::-webkit-scrollbar-track {
+  //轨道部分
+  // box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+  background: #ededed;
+  border-radius: 5px;
+}
+.tooltip {
+  .ug-tooltip-inner {
+    color: rgba(0, 0, 0, 0.85);
+    background: #ffffff;
+  }
+  .ug-tooltip-arrow::before {
+    background-color: #ffffff;
+  }
+}

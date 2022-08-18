@@ -3,12 +3,6 @@ module.exports = {
     '@vue/cli-plugin-babel/preset',["@babel/preset-env", { "modules": false }]
   ],
   plugins: [
-    [
-      "component",
-      {
-        "libraryName": "element-ui",
-        "styleLibraryName": "theme-chalk"
-      }
-    ]
+    ["import", { libraryName: "ant-design-vue", libraryDirectory: "es", style: true }] // `style: true` 会加载 less 文件
   ]
 }

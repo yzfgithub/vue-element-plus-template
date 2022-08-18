@@ -1,0 +1,72 @@
+{
+  "id": "3211248",
+  "name": "能力商店",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "14464222",
+      "name": "添加成员",
+      "font_class": "tianjiachengyuan",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "4237402",
+      "name": "应用分析",
+      "font_class": "yingyongfenxi",
+      "unicode": "e63b",
+      "unicode_decimal": 58939
+    },
+    {
+      "icon_id": "1305463",
+      "name": "查看",
+      "font_class": "chakan",
+      "unicode": "e63e",
+      "unicode_decimal": 58942
+    },
+    {
+      "icon_id": "3538379",
+      "name": "删除",
+      "font_class": "shanchu",
+      "unicode": "e718",
+      "unicode_decimal": 59160
+    },
+    {
+      "icon_id": "9826653",
+      "name": "成员管理",
+      "font_class": "chengyuanguanli",
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    },
+    {
+      "icon_id": "11526819",
+      "name": "修改",
+      "font_class": "xiugai",
+      "unicode": "e606",
+      "unicode_decimal": 58886
+    },
+    {
+      "icon_id": "12561500",
+      "name": "关联",
+      "font_class": "guanlian",
+      "unicode": "e6ff",
+      "unicode_decimal": 59135
+    },
+    {
+      "icon_id": "26841830",
+      "name": "配置",
+      "font_class": "peizhi",
+      "unicode": "ea3f",
+      "unicode_decimal": 59967
+    },
+    {
+      "icon_id": "6798112",
+      "name": "项目管理",
+      "font_class": "xiangmuguanli",
+      "unicode": "e67d",
+      "unicode_decimal": 59005
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+.user {
+  .title {
+    margin-bottom: 10px;
+    font-family: PingFangSC-Medium;
+    font-weight: 500;
+  }
+  .margin {
+    margin-top: 15px;
+  }
+  .notice {
+    margin-bottom: 10px;
+    span {
+      color: #406cff;
+      cursor: pointer;
+    }
+  }
+  .group {
+    display: flex;
+    align-items: center;
+    span {
+      margin-right: 5px;
+    }
+  }
+  .desc {
+    margin: 20px 0;
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.45);
+    span {
+      margin-left: 5px;
+    }
+  }
+}
+::v-deep .ug-modal {
+  top: 10px;
+}

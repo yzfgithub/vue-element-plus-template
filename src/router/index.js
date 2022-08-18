@@ -4,17 +4,34 @@ const routes = [
     {
         path: '/',
         redirect: {
-            path: "/page1"
+            path: "/userGroup"
         },
     },{
-        path: '/page1',
-        component: () => import('../views/page1.vue')
-    },{
-        path: '/page2',
-        component: () => import('../views/page2.vue')
-    },{
-        path: '/template',
-        component: () => import('../views/template')
+        path: '/userGroup',
+        component: () => import('../views/userGroup'),
+        children: [
+            {
+                path: 'groupCreate',
+                component: () => import('../views/userGroup/userForm/index.vue')
+            },
+            // 删除用户组时展示的页面
+            {
+                path: 'groupEdit',
+                component: () => import('../views/noData/index.vue')
+            },
+            {
+                path: 'groupEdit/:id',
+                component: () => import('../views/userGroup/userForm/index.vue')
+            },
+            {
+                path: 'userList/:id',
+                component: () => import('../views/userGroup/userList/index.vue')
+            },
+            {
+                path: '',
+                component: () => import('../views/noData/index.vue')
+            }
+        ]
     },{
         path: '/noData',
         component: () => import('../views/noData')

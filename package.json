@@ -1,52 +1,64 @@
 {
-  "name": "vue-elementui-template",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
-  },
-  "dependencies": {
-    "axios": "^0.27.2",
-    "babel-plugin-component": "^1.1.1",
-    "core-js": "^3.6.5",
-    "element-plus": "^2.2.6",
-    "js-cookie": "^3.0.1",
-    "node-sass": "4.14.1",
-    "sass-loader": "7.3.1",
-    "unplugin-auto-import": "^0.9.1",
-    "unplugin-vue-components": "^0.20.1",
-    "vue": "^3.0.0",
-    "vue-router": "^4.0.16",
-    "vuex": "^4.0.2"
-  },
-  "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.9",
-    "@vue/cli-plugin-eslint": "~4.5.9",
-    "@vue/cli-service": "~4.5.9",
-    "@vue/compiler-sfc": "^3.0.0",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^7.0.0"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/vue3-essential",
-      "eslint:recommended"
-    ],
-    "parserOptions": {
-      "parser": "babel-eslint"
-    },
-    "rules": {}
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ]
+	"name": "gt-isc-user-group",
+	"version": "1.0.0",
+	"private": true,
+	"scripts": {
+		"start": "npm run serve",
+		"serve": "vue-cli-service serve",
+		"build": "vue-cli-service build",
+		"eslint": "vue-cli-service lint",
+		"stylelint": "stylelint src/**/*.{html,vue,css,sass,scss} --fix",
+		"lint": "npm run eslint && npm run stylelint"
+	},
+	"dependencies": {
+		"@ant-design/icons-vue": "^6.1.0",
+		"ant-design-vue": "^3.2.11",
+		"axios": "^0.27.2",
+		"babel-plugin-import": "^1.13.5",
+		"compression-webpack-plugin": "6.1.1",
+		"element-plus": "^2.2.6",
+		"image-webpack-loader": "^8.1.0",
+		"js-cookie": "^3.0.1",
+		"lodash-es": "^4.17.21",
+		"mockjs": "^1.1.0",
+		"moment": "^2.29.4",
+		"node-sass": "4.14.1",
+		"sass-loader": "7.3.1",
+		"svg-sprite-loader": "^6.0.11",
+		"vue": "^3.0.0",
+		"vue-router": "^4.0.16",
+		"vuex": "^4.0.2"
+	},
+	"devDependencies": {
+		"@vue/cli-plugin-babel": "~4.5.9",
+		"@vue/cli-plugin-eslint": "~4.5.9",
+		"@vue/cli-service": "~4.5.9",
+		"@vue/compiler-sfc": "^3.0.0",
+		"babel-eslint": "^10.1.0",
+		"babel-plugin-component": "^1.1.1",
+		"core-js": "^3.6.5",
+		"eslint": "^6.7.2",
+		"eslint-plugin-vue": "^7.0.0",
+		"less-loader": "^6.0.0"
+	},
+	"eslintConfig": {
+		"root": true,
+		"env": {
+			"node": true
+		},
+		"extends": [
+			"plugin:vue/vue3-essential",
+			"eslint:recommended"
+		],
+		"parserOptions": {
+			"parser": "babel-eslint"
+		},
+		"rules": {}
+	},
+	"browserslist": [
+		"> 1%",
+		"last 2 versions",
+		"not dead"
+	],
+	"description": "这是一个模版项目"
 }
