@@ -2,7 +2,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 
 import store from './store/index'
-import router from './router/index'
+import routes from './router/index'
 
 import './assets/iconfont/iconfont.css'
 // 全局scss
@@ -14,9 +14,15 @@ import { registerAntVComponent } from '@/utils/ant'
 
 // import './mock/mock'
 
+let router = null
 let instance = null;
 function render(props = {}) {
     const { container } = props;
+
+    router = routes('/control/gt-isc-user-group/')
+
+    console.log(router, 'router', router.options)
+
     instance = createApp(App)
 
     registerSvgComponent(instance)

@@ -50,10 +50,10 @@ const productionGzipExtensions = /\.(js|css|json|txt|html|ico|svg)(\?.*)?$/i
 //   ],
 // };
 module.exports = {
-  // publicPath: isProd ? '/gt-isc-user-group' : '/',
+  publicPath: isProd ? '/gt-isc-user-group' : '/',
   lintOnSave: true,
   // outputDir: '../gt-isc-frame/dist/gt-isc-user-group',
-  // outputDir: 'dist/gt-isc-user-group',
+  outputDir: 'dist/gt-isc-user-group',
   assetsDir: 'static',
   transpileDependencies: ['ant-design-vue'],
   //   configureWebpack: config => {

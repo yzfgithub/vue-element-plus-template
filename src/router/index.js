@@ -38,9 +38,9 @@ const routes = [
     }
 ]
 
-const router = createRouter({
-    history: createWebHistory(),
-    routes
-})
-
-export default router;
+export default base => {
+    return createRouter({
+        history: createWebHistory(window.__POWERED_BY_QIANKUN__ ? base : process.env.BASE_URL),
+        routes
+    })
+}
