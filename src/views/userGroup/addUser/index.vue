@@ -1,12 +1,12 @@
 <template>
-    <div id="add-user-box"></div>
+    <div id="add-user-box" ref="addUserBox"></div>
     <a-modal 
       v-model:visible="addUserShow"
       title="添加项目成员"
       :width="1200"
       class="user"
       :maskClosable="false"
-      :getContainer="getContainer"
+      :getContainer="() => $refs.addUserBox"
       @cancel="handleCancel"
     >
       <template v-slot:footer>
@@ -214,13 +214,13 @@
       }
     }
 
-    const getContainer = () => {
-      console.log('挂载元素', document.getElementById('add-user-box'))
-      return document.getElementById('add-user-box')
-    }
+    // const getContainer = () => {
+    //   console.log('挂载元素', document.getElementById('add-user-box'))
+    //   return document.getElementById('add-user-box')
+    // }
 
     {
-        toRefs(defComponents), addUserShow, toRefs(defState), transfer, leftColumns, getRowSelection, userVisible, getContainer
+        toRefs(defComponents), addUserShow, toRefs(defState), transfer, leftColumns, getRowSelection, userVisible
     }
 </script>
 
