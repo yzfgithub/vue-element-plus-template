@@ -1,73 +1,70 @@
 <template>
-    <div id="add-user-box" ref="addUserBox">
-      <a-modal 
-        v-model:visible="addUserShow"
-        title="添加项目成员"
-        :width="1200"
-        class="user"
-        :maskClosable="false"
-        :getContainer="() => this.$refs.addUserBox"
-        @cancel="handleCancel"
-      >
-        <template v-slot:footer>
-          <a-button @click="handleCancel"> 取消 </a-button>
-          <a-button type="primary" @click="addMemberOk"> 添加 </a-button>
-        </template>
-        <p class="notice">添加成功后，对方将收到一条已加入项目的通知</p>
-        <p class="notice">
-          从集团成员中选择（如想添加的成员不属于本集团，请点击<span
-            @click="addNewUser"
-            >添加成员</span
-          >）
-        </p>
-        <div class="title">成员添加</div>
+    <div id="add-user-box"></div>
+    <a-modal 
+      v-model:visible="addUserShow"
+      title="添加项目成员"
+      :width="1200"
+      class="user"
+      :maskClosable="false"
+      :getContainer="getContainer"
+      @cancel="handleCancel"
+    >
+      <template v-slot:footer>
+        <a-button @click="handleCancel"> 取消 </a-button>
+        <a-button type="primary" @click="addMemberOk"> 添加 </a-button>
+      </template>
+      <p class="notice">添加成功后，对方将收到一条已加入项目的通知</p>
+      <p class="notice">
+        从集团成员中选择（如想添加的成员不属于本集团，请点击<span
+          @click="addNewUser"
+          >添加成员</span
+        >）
+      </p>
+      <div class="title">成员添加</div>
 
-        <div class="userContent">
-          <a-transfer
-            ref="transfer"
-            :data-source="defState.memberData"
-            :target-keys="defState.targetKeys"
-            showSearch
-            :filter-option="
-              (inputValue, item) => item.fullName.indexOf(inputValue) !== -1
-            "
-            @change="onChange"
-            @search="handleSearch"
+      <div class="userContent">
+        <a-transfer
+          ref="transfer"
+          :data-source="defState.memberData"
+          :target-keys="defState.targetKeys"
+          showSearch
+          :filter-option="
+            (inputValue, item) => item.fullName.indexOf(inputValue) !== -1
+          "
+          @change="onChange"
+          @search="handleSearch"
+        >
+          <template
+            #children="{ selectedKeys, filteredItems,onItemSelectAll, onItemSelect }"
           >
-            <template
-              #children="{ selectedKeys, filteredItems,onItemSelectAll, onItemSelect }"
-            >
-              <a-table
-                :row-selection="
-                  getRowSelection({
-                    selectedKeys,
-                    onItemSelectAll,
-                    onItemSelect
-                  })
-                "
-                :columns="leftColumns"
-                :data-source="filteredItems"
-                size="small"
-                :custom-row="
-                  ({ key }) => ({
-                    on: {
-                      click: () => {
-                        itemSelect(key, !selectedKeys.includes(key))
-                      }
+            <a-table
+              :row-selection="
+                getRowSelection({
+                  selectedKeys,
+                  onItemSelectAll,
+                  onItemSelect
+                })
+              "
+              :columns="leftColumns"
+              :data-source="filteredItems"
+              size="small"
+              :custom-row="
+                ({ key }) => ({
+                  on: {
+                    click: () => {
+                      itemSelect(key, !selectedKeys.includes(key))
                     }
-                  })
-                "
-              />
-            </template>
-          </a-transfer>
-        </div>
+                  }
+                })
+              "
+            />
+          </template>
+        </a-transfer>
+      </div>
 
-        <AddNewUser :modelVisible="userVisible" @modelCancel="modelCancel" ></AddNewUser>
+      <AddNewUser :modelVisible="userVisible" @modelCancel="modelCancel" ></AddNewUser>
 
-      </a-modal>
-    </div>
-
-
+    </a-modal>
 </template>
 
 <script setup>
@@ -112,7 +109,6 @@
     let rightTableData = []
 
     let userVisible = ref(false)
-    let addUserRef = ref()
 
     const leftColumns = [
         {
@@ -218,8 +214,13 @@
       }
     }
 
+    const getContainer = () => {
+      console.log('挂载元素', document.getElementById('add-user-box'))
+      return document.getElementById('add-user-box')
+    }
+
     {
-        toRefs(defComponents), addUserShow, toRefs(defState), transfer, leftColumns, getRowSelection, userVisible
+        toRefs(defComponents), addUserShow, toRefs(defState), transfer, leftColumns, getRowSelection, userVisible, getContainer
     }
 </script>
 
