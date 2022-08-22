@@ -44,6 +44,11 @@
                     :filter-option="false"
                     :not-found-content="leaderList.fetching ? undefined : null"
                     :options="leaderList.list"
+                    :getPopupContainer="
+                        triggerNode => {
+                        return triggerNode.parentNode
+                        }
+                    "
                     @search="fetchLeaderUser"
                     @select="handleLeaderSelect"
                     @deselect="handleLeaderDeselect"
@@ -68,6 +73,11 @@
                 :filter-option="false"
                 :not-found-content="memberList.fetching ? undefined : null"
                 :options="memberList.list"
+                :getPopupContainer="
+                    triggerNode => {
+                    return triggerNode.parentNode
+                    }
+                "
                 @search="fetchMemberUser"
                 @select="handleMemberSelect"
                 @deselect="handleMemberDeselect"
