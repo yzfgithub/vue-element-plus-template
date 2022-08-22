@@ -12,12 +12,6 @@ import { registerSvgComponent } from './icons'
 // 注册组件
 import { registerAntVComponent } from '@/utils/ant'
 
-import { message } from 'ant-design-vue';
-
-message.config({
-  getContainer: () => {return document.getElementById('user-group')}
-})
-
 // import './mock/mock'
 
 let router = null
@@ -36,7 +30,7 @@ function render(props = {}) {
     
     instance.use(router)
     instance.use(store)
-    instance.mount(container ? container.querySelector('#user-group') : '#user-group')
+    instance.mount(container ? container.querySelector('#app') : '#app')
 }
 
 // 独立运行时

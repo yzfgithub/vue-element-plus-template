@@ -7,7 +7,7 @@
       <div class="tc">暂无数据</div>
     </template>
 
-    <div id="app">
+    <div id="page-ctn" ref="pageCtn">
       <router-view />
     </div>
 
@@ -19,9 +19,17 @@ import zh_CN from 'ant-design-vue/lib/locale-provider/zh_CN'
 import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
 dayjs.locale('zh-cn');
+import { onMounted } from 'vue'
+import { message } from 'ant-design-vue';
 
 export default {
   setup() {
+      onMounted(() => {
+        message.config({
+            getContainer: () => {return document.getElementById('app')}
+          })
+      })
+      
     return { zh_CN }
   }
   // components: { Empty },
@@ -38,7 +46,7 @@ export default {
 .tc {
   text-align: center;
 }
-#app {
+#page-ctn {
   height: calc(100vh - 64px);
   font-family: Avenir, Helvetica, Arial, sans-serif;
   color: #2c3e50;

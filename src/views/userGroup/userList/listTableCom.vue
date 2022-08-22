@@ -191,6 +191,7 @@
   const removePatchPerson = () => {
     if(!state.selectedKeys.length) {
       message.warning('选中用户组不能为空')
+      return false
     }
     const firstName = state.selectedKeys[0].realName
     Modal.confirm({
