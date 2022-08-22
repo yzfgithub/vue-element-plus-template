@@ -1,5 +1,5 @@
 <template>
-    <div id="user-group-table">
+    <div id="user-group-table" ref="userGroupTableRef">
       <div v-if="selectionShow" class="selection-handle">
         <div>已经选择{{state.selectedKeys.length}}人</div>
         <div>
@@ -41,7 +41,7 @@
 </template>
 
 <script setup>
-  import { defineExpose, reactive, defineProps, toRefs, defineEmits, createVNode } from 'vue'
+  import { defineExpose, reactive, defineProps, toRefs, defineEmits, createVNode, ref } from 'vue'
   import { Modal, message } from 'ant-design-vue';
   import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
   import { deleteMember } from '@/api/userGroup'
@@ -125,6 +125,7 @@
     // 当前页面中选择的key
     selectedRowKeys: [],
   })
+  const userGroupTableRef = ref()
 
   // 复选框勾选改变
   const onSelectChange = (arr) => {
@@ -179,7 +180,7 @@
         title: '删除用户组成员',
         icon: <ExclamationCircleOutlined style="color: #469ffb;" />,
         content: `是否删除成员${record.realName}？`,
-        getContainer: () => document.getElementById('user-group-table'),
+        getContainer: () => userGroupTableRef.value,
         onOk() {
             removePerson([record.id])
         },
@@ -200,7 +201,7 @@
           createVNode('span', {style: 'color: #469ffb;'}, `${state.selectedKeys.length > 1 ? state.selectedKeys.length : ''}`),
           createVNode('span', null, `${state.selectedKeys.length > 1 ? '人' : ''}】移出【${titleName.value}】用户组？`),
           ]),
-        getContainer: () => document.getElementById('user-group-table'),
+        getContainer: () => userGroupTableRef.value,
         onOk() {
           const params = state.selectedKeys.map(item => item.id)
           removePerson(params)
@@ -221,7 +222,7 @@
 
   {
     columns, state, onSelectChange, cancelDeletePerson,
-    selectionShow, dataSourceList, pagination, tableLoading, tableChange
+    selectionShow, dataSourceList, pagination, tableLoading, tableChange, userGroupTableRef
   }
 </script>
 

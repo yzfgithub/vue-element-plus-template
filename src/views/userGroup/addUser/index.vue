@@ -214,11 +214,6 @@
       }
     }
 
-    // const getContainer = () => {
-    //   console.log('挂载元素', document.getElementById('add-user-box'))
-    //   return document.getElementById('add-user-box')
-    // }
-
     {
         toRefs(defComponents), addUserShow, toRefs(defState), transfer, leftColumns, getRowSelection, userVisible
     }

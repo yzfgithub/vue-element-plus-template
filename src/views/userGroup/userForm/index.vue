@@ -1,5 +1,5 @@
 <template>
-    <div id="user-group-form" class="form-box">
+    <div id="user-group-form" ref="userGroupFormRef" class="form-box">
         <div class="form-title">
             {{isEdit ? '编辑用户组' : '添加用户组'}}
         </div>
@@ -114,6 +114,7 @@ import { debounce } from 'lodash-es';
     // 获取路由信息
     const router = useRouter();
     const formRef = ref()
+    const userGroupFormRef = ref()
 
     // 领导成员选择
     const { leaderList, fetchLeaderUser, memberList, fetchMemberUser, editState, isEdit, groupId, formState, resetData, initData, handleLeaderSelect, handleLeaderDeselect, handleMemberSelect, handleMemberDeselect, } = baseFun()
@@ -152,7 +153,7 @@ import { debounce } from 'lodash-es';
             title: '删除用户组',
             icon: <ExclamationCircleOutlined style="color: #469ffb;" />,
             content: '是否删除该用户组',
-            getContainer: () => document.getElementById('user-group-form'),
+            getContainer: () => userGroupFormRef.value,
             onOk() {
                 deleteMemberById(router.currentRoute.value.params.id).then(res => {
                     router.go('/userGroup/groupEdit')
@@ -174,7 +175,7 @@ import { debounce } from 'lodash-es';
     // return 
     { formState, isEdit, submitHandle, cancelHandle, deleteHandle, 
       handleLeaderSelect, handleLeaderDeselect, handleMemberSelect, handleMemberDeselect,
-      leaderList, fetchLeaderUser, memberList, fetchMemberUser
+      leaderList, fetchLeaderUser, memberList, fetchMemberUser, userGroupFormRef
     }
 </script>
 
