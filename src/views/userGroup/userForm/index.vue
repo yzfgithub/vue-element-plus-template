@@ -1,5 +1,5 @@
 <template>
-    <div class="form-box">
+    <div id="user-group-form" class="form-box">
         <div class="form-title">
             {{isEdit ? '编辑用户组' : '添加用户组'}}
         </div>
@@ -152,6 +152,7 @@ import { debounce } from 'lodash-es';
             title: '删除用户组',
             icon: <ExclamationCircleOutlined style="color: #469ffb;" />,
             content: '是否删除该用户组',
+            getContainer: () => document.getElementById('user-group-form'),
             onOk() {
                 deleteMemberById(router.currentRoute.value.params.id).then(res => {
                     router.go('/userGroup/groupEdit')

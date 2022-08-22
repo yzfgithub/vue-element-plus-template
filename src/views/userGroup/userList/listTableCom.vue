@@ -1,41 +1,43 @@
 <template>
-    <div v-if="selectionShow" class="selection-handle">
-      <div>已经选择{{state.selectedKeys.length}}人</div>
-      <div>
-        <a-button @click="removePatchPerson" size="small" type="primary" class="remove-btn">移出用户组</a-button>
-        &nbsp;&nbsp;
-        <a-button @click="cancelDeletePerson" size="small" class="remove-btn">取消</a-button>
-      </div>
-    </div>
-    <a-table
-    :scroll="{ y: 600 }"
-    :row-selection="selectionShow ? { selectedRowKeys: state.selectedRowKeys, onChange: onSelectChange } : null" 
-    :dataSource="dataSourceList" 
-    :columns="columns" 
-    :loading="tableLoading"
-    @change="tableChange"
-    :rowKey="(record) => record.id"
-    :pagination="{
-      pageSize: pagination.pageSize,
-      pageNum: pagination.page,
-      total: pagination.total,
-      showQuickJumper: true,
-      showSizeChanger: true,
-      showTotal: (total, range) => `共${total}条`,
-      pageSizeOptions: ['10', '50', '100']
-    }"
-    >
-    
-    <template #bodyCell="{ column, text, record }">
-      
-      <template v-if="column.dataIndex === 'operation'">
-        <div class="table-edit">
-          <span @click="removeSinglePerson(record)">移出用户组</span>
+    <div id="user-group-table">
+      <div v-if="selectionShow" class="selection-handle">
+        <div>已经选择{{state.selectedKeys.length}}人</div>
+        <div>
+          <a-button @click="removePatchPerson" size="small" type="primary" class="remove-btn">移出用户组</a-button>
+          &nbsp;&nbsp;
+          <a-button @click="cancelDeletePerson" size="small" class="remove-btn">取消</a-button>
         </div>
+      </div>
+      <a-table
+      :scroll="{ y: 600 }"
+      :row-selection="selectionShow ? { selectedRowKeys: state.selectedRowKeys, onChange: onSelectChange } : null" 
+      :dataSource="dataSourceList" 
+      :columns="columns" 
+      :loading="tableLoading"
+      @change="tableChange"
+      :rowKey="(record) => record.id"
+      :pagination="{
+        pageSize: pagination.pageSize,
+        pageNum: pagination.page,
+        total: pagination.total,
+        showQuickJumper: true,
+        showSizeChanger: true,
+        showTotal: (total, range) => `共${total}条`,
+        pageSizeOptions: ['10', '50', '100']
+      }"
+      >
+      
+      <template #bodyCell="{ column, text, record }">
+        
+        <template v-if="column.dataIndex === 'operation'">
+          <div class="table-edit">
+            <span @click="removeSinglePerson(record)">移出用户组</span>
+          </div>
+        </template>
       </template>
-    </template>
 
-    </a-table>
+      </a-table>
+    </div>
 </template>
 
 <script setup>
@@ -177,6 +179,7 @@
         title: '删除用户组成员',
         icon: <ExclamationCircleOutlined style="color: #469ffb;" />,
         content: `是否删除成员${record.realName}？`,
+        getContainer: () => document.getElementById('user-group-table'),
         onOk() {
             removePerson([record.id])
         },
@@ -197,6 +200,7 @@
           createVNode('span', {style: 'color: #469ffb;'}, `${state.selectedKeys.length > 1 ? state.selectedKeys.length : ''}`),
           createVNode('span', null, `${state.selectedKeys.length > 1 ? '人' : ''}】移出【${titleName.value}】用户组？`),
           ]),
+        getContainer: () => document.getElementById('user-group-table'),
         onOk() {
           const params = state.selectedKeys.map(item => item.id)
           removePerson(params)

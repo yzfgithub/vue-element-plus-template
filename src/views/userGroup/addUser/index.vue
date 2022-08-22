@@ -1,12 +1,12 @@
 <template>
-    <div id="addUserRef" ref="addUserRef">
+    <div id="add-user-box">
       <a-modal 
         v-model:visible="addUserShow"
         title="添加项目成员"
         :width="1200"
         class="user"
         :maskClosable="false"
-        :getContainer="() => this.$refs.addUserRef"
+        :getContainer="getContainer"
         @cancel="handleCancel"
       >
         <template v-slot:footer>
@@ -78,7 +78,6 @@
     import AddNewUser from './AddNewUser.vue'
     import { useRouter } from 'vue-router'
     import { useStore } from 'vuex'
-
 
     const defProps = defineProps({
         addUserVisible: {
@@ -219,8 +218,12 @@
       }
     }
 
+    const getContainer = () => {
+      return document.getElementById("add-user-box")
+    }
+
     {
-        toRefs(defComponents), addUserShow, toRefs(defState), transfer, leftColumns, getRowSelection, userVisible, addUserRef
+        toRefs(defComponents), addUserShow, toRefs(defState), transfer, leftColumns, getRowSelection, userVisible, getContainer
     }
 </script>
 

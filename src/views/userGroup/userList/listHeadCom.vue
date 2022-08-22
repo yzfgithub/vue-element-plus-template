@@ -17,6 +17,11 @@
                 style="width: 120px"
                 @change="handleChange"
                 class="sort"
+                :getPopupContainer="
+                    triggerNode => {
+                    return triggerNode.parentNode
+                    }
+                "
                 >
                     <a-select-option v-for="(item, index) in sortTypeList" :key="index" :value="item.value">{{item.label}}</a-select-option>
                 </a-select>
