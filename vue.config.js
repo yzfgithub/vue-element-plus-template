@@ -158,9 +158,9 @@ module.exports = {
     compress: true,
     proxy: {
       '/appStore': {
-        target: 'http://10.1.71.72:8891',
+        // target: 'http://10.1.71.72:8891',
         // 测试
-        // target: 'http://10.152.160.27:60037',
+        target: 'http://10.152.160.27:60037',
         changeOrigin: true
       }
     },

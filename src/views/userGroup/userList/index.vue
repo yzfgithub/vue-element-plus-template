@@ -8,13 +8,13 @@
 </template>
 
 <script setup>
-    import { defineComponent, toRefs, ref, reactive, watch } from 'vue';
+    import { defineComponent, toRefs, watch } from 'vue';
     import { useRouter } from 'vue-router'
     import CusTip from '@/components/CusTip.vue'
     import ListHeadCom from './listHeadCom.vue'
     import ListTableCom from './listTableCom.vue'
-    import { getMemberInfoList, getMemberGroupInfoById } from '@/api/userGroup'
     import addUser from '../addUser/index.vue'
+    import userList from './index';
 
     const defComponents = defineComponent({
         components: {
@@ -22,37 +22,10 @@
         }
     })
 
-    const defState = reactive({
-        dataSourceList: [],
-        pagination: {
-            total: 0,
-            page: 1,
-            pageSize: 10
-        },
-        tableLoading: false,
-        titleName: ''
-    })
-
     const router = useRouter()
-    const listTableRef = ref()
-    const selectionShow = ref(false);
-
-    const addUserVisible = ref(false);
-
     let queryForm = {}
-    const patchDelete = () => {
-        selectionShow.value = true
-    }
-    const patchDeleteCancel = () => {
-        selectionShow.value = false
-    }
 
-    const clearSelectionData = () => {
-        patchDeleteCancel()
-        if(listTableRef.value) {
-            listTableRef.value.clearSelectionData()
-        }
-    }
+    const { selectionShow, addUserVisible, defState, listTableRef, getDetail, getList, patchDelete, patchDeleteCancel, clearSelectionData, addUserHandle, closeAddUserModal } = userList()
 
     const querySearch = (value) => {
         clearSelectionData()
@@ -62,9 +35,9 @@
             pageSize: defState.pagination.pageSize,
             groupId: router.currentRoute.value.params.id
         }, value)
-
         getList(params)
     }
+
     const paginationChange = (value) => {
         const params = Object.assign({}, queryForm, {
             page: value.page || defState.pagination.page,
@@ -74,34 +47,7 @@
         getList(params)
     }
 
-    const getList = (params) => {
-        defState.tableLoading = true
-        getMemberInfoList(params).then(res => {
-            defState.tableLoading = false
-            if(res.success) {
-                defState.dataSourceList = res.data.result
-                defState['pagination'].total = res.data.total
-                defState['pagination'].pageSize = res.data.pageSize
-                defState['pagination'].page = res.data.page
-            }
-        })
-    }
-
-    const getDetail = (newId) => {
-        getMemberGroupInfoById(newId).then(res => {
-            res.success && (defState.titleName = res.data.name)
-        })
-    }
-
-    const addUserHandle = () => {
-        addUserVisible.value = true
-    }
-    const closeAddUserModal = () => {
-        addUserVisible.value = false
-    }
-
     const addNewUserEmit = () => {
-        console.log('ss')
         querySearch({sort: '1'})
     }
 

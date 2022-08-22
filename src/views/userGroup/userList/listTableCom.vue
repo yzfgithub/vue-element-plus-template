@@ -124,6 +124,7 @@
     selectedRowKeys: [],
   })
 
+  // 复选框勾选改变
   const onSelectChange = (arr) => {
     // 当前页选择项赋值
     state.selectedRowKeys = arr
@@ -151,22 +152,13 @@
     state.selectedKeys = []
   }
 
+  // table分页改变
   const tableChange = (pagination) => {
     defEmits('getList', {page: pagination.current, pageSize: pagination.pageSize})
     state.selectedRowKeys = state.selectedKeys.map(item => item.id)
   }
 
-  const removeSinglePerson = (record) => {
-    Modal.confirm({
-        title: '删除用户组成员',
-        icon: <ExclamationCircleOutlined style="color: #469ffb;" />,
-        content: `是否删除成员${record.realName}？`,
-        onOk() {
-            removePerson([record.id])
-        },
-        onCancel() {},
-    });
-  }
+  // 移出方法
   const removePerson = (arr) => {
     deleteMember(arr).then(res => {
       if(res.success) {
@@ -179,7 +171,19 @@
       }
     })
   }
-
+  // 单人移出事件
+  const removeSinglePerson = (record) => {
+    Modal.confirm({
+        title: '删除用户组成员',
+        icon: <ExclamationCircleOutlined style="color: #469ffb;" />,
+        content: `是否删除成员${record.realName}？`,
+        onOk() {
+            removePerson([record.id])
+        },
+        onCancel() {},
+    });
+  }
+  // 批量移出
   const removePatchPerson = () => {
     if(!state.selectedKeys.length) {
       message.warning('选中用户组不能为空')
@@ -200,12 +204,13 @@
         onCancel() {},
       });
   }
-
+  // 取消移出
   const cancelDeletePerson = () => {
     defEmits('patchDeleteCancel')
     clearSelectionData()
   }
-
+  
+  // 使父组件可以调用子组件方法
   defineExpose({
     clearSelectionData
   })

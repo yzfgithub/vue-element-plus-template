@@ -106,7 +106,7 @@ import { debounce } from 'lodash-es';
     const formRef = ref()
 
     // 领导成员选择
-    const { leaderList, fetchLeaderUser, memberList, fetchMemberUser, editState, isEdit, groupId, formState, resetData, initData } = baseFun()
+    const { leaderList, fetchLeaderUser, memberList, fetchMemberUser, editState, isEdit, groupId, formState, resetData, initData, handleLeaderSelect, handleLeaderDeselect, handleMemberSelect, handleMemberDeselect, } = baseFun()
 
     // 提交操作
     const submitHandle = debounce(() => {
@@ -151,23 +151,6 @@ import { debounce } from 'lodash-es';
         });
     }
 
-    const handleLeaderDeselect = (val) => {
-        const idx = editState.leaderArr.findIndex(item => item.value === val.key)
-        editState.leaderArr.splice(idx, 1)
-    }
-    const handleLeaderSelect = (val, opt) => {
-        editState.leaderArr.push(opt)
-    }
-    const handleMemberDeselect = (val) => {
-        console.log('ressss', editState.memberArr)
-        const idx = editState.memberArr.findIndex(item => item.value === val.key)
-        editState.memberArr.splice(idx, 1)
-    }
-    const handleMemberSelect = (val, opt) => {
-        console.log('ressss', editState.memberArr)
-        editState.memberArr.push(opt)
-    }
-
     watch(() => router.currentRoute.value.params.id,(newId) => {
         if(newId && router.currentRoute.value.path.indexOf('groupEdit') > -1) {
             resetData()
@@ -177,8 +160,10 @@ import { debounce } from 'lodash-es';
         }
     },{ immediate: true });
 
-    { formState, isEdit, submitHandle, cancelHandle, deleteHandle, handleLeaderSelect, handleLeaderDeselect, handleMemberSelect, handleMemberDeselect,
-        leaderList, fetchLeaderUser, memberList, fetchMemberUser
+    // return 
+    { formState, isEdit, submitHandle, cancelHandle, deleteHandle, 
+      handleLeaderSelect, handleLeaderDeselect, handleMemberSelect, handleMemberDeselect,
+      leaderList, fetchLeaderUser, memberList, fetchMemberUser
     }
 </script>
 

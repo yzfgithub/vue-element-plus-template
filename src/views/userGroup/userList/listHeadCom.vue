@@ -1,15 +1,14 @@
 <template>
     <div class="list-head">
         <div class="title" :title="titleName">{{titleName}}</div>
-        <div class="cus-input">
-             <a-input v-model:value="searchName" @change="changeInput" @pressEnter="onSearch" style="width: 200px" placeholder="搜索成员名称">
+        <div class="cus-input"></div>
+        
+        <div class="right-handle">
+             <a-input v-model:value="searchName" @change="changeInput" @pressEnter="onSearch" style="width: 200px;margin-right: 20px;" placeholder="搜索成员名称">
                 <template #suffix>
                     <search-outlined @click="onSearch" />
                 </template>
-                </a-input>
-        </div>
-        
-        <div class="right-handle">
+            </a-input>
             <div>
                 排序:
                 <a-select
@@ -57,23 +56,33 @@
     const sortType = ref('1');
     const searchName = ref('');
 
+    // 添加成员事件
     const addNewPerson = () => {
         defEmits('addUser')
     }
+
+    // 批量删除事件
     const patchDelete = () => {
         defEmits('patchDelete')
     }
+
+    // 输入框内容修改
     const changeInput = (e) => {
         searchName.value = e.target.value
     }
+
+    // 输入框搜索
     const onSearch = () => {
         defEmits('getList', {sort: sortType.value, name: searchName.value})
     }
+
+    // 类型改变搜索
     const handleChange = (val) => {
         sortType.value = val;
         defEmits('getList', {sort: parseInt(sortType.value), name: searchName.value})
     }
 
+    // return 
     {
         toRefs(defComponents), titleName, handleChange, onSearch, addNewPerson, patchDelete, sortTypeList, searchName
     }
@@ -98,12 +107,12 @@
         }
         .cus-input{
             flex: 1;
-            .search-input:hover, .search-input:focus{
-                border-color: #40a9ff;
-            }
+        }
+        .search-input:hover, .search-input:focus{
+            border-color: #40a9ff;
         }
         .right-handle {
-            width: 360px;
+            width: 580px;
             display: flex;
             .sort {
                 width: 100px !important;

@@ -1,7 +1,6 @@
 <template>
-
     <a-modal 
-      v-model:visible="addUserVisible"
+      v-model:visible="addUserShow"
       title="添加项目成员"
       :width="1200"
       class="user"
@@ -68,7 +67,7 @@
 </template>
 
 <script setup>
-    import { defineComponent, toRefs, ref, reactive, watch, defineProps, defineEmits } from 'vue';
+    import { defineComponent, toRefs, ref, reactive, computed, defineProps, defineEmits } from 'vue';
     import { queryUserByFullName, postMemberGroupMember } from '@/api/common'
     import { debounce, difference } from 'lodash-es';
     import { message } from 'ant-design-vue';
@@ -76,25 +75,29 @@
     import { useRouter } from 'vue-router'
     import { useStore } from 'vuex'
 
-    let store = useStore()
 
-    const defComponents = defineComponent({
-        components: {
-            AddNewUser
-        }
-    })
-
-    const defEmit = defineEmits(['closeAddUserModal', 'addNewUserEmit'])
     const defProps = defineProps({
         addUserVisible: {
             type: Boolean,
             default: false
         }
     })
+    const defComponents = defineComponent({
+        components: {
+            AddNewUser
+        }
+    })
+    const defEmit = defineEmits(['closeAddUserModal', 'addNewUserEmit'])
 
-    const { addUserVisible } = toRefs(defProps)
+    const addUserShow = computed({
+      get: () => {
+          return defProps.addUserVisible
+        },
+      set: () => {}
+    })
 
 
+    let store = useStore()
     const transfer = ref()
     const router = useRouter()
     const defState = reactive({
@@ -173,7 +176,6 @@
       })
     }
 
-    // @debounce(100)
     const handleSearch = debounce((dir, value) => {
       if (dir === 'left') {
         if (!value) return
@@ -213,7 +215,7 @@
     }
 
     {
-        toRefs(defComponents), addUserVisible, toRefs(defState), transfer, leftColumns, getRowSelection, userVisible
+        toRefs(defComponents), addUserShow, toRefs(defState), transfer, leftColumns, getRowSelection, userVisible
     }
 </script>
 

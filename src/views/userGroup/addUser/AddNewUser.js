@@ -1,3 +1,6 @@
+import { reactive } from 'vue';
+import { getOrgList } from '@/api/common'
+import dayjs from 'dayjs'
 
 const rules = {
     name: [
@@ -74,9 +77,34 @@ const wrapperCol = { span: 18 }
 const type = [{ label: '合作伙伴', value: 1 }]
 const certificate = [{ label: '身份证', value: 1 }]
 
-export default function AddNewUser() {
+const defState = reactive({
+    company: [],
+})
 
+// 添加表单
+const defForm = reactive({
+    credentialsType: 1,
+    type: 1,
+    effectiveTime: dayjs(new Date()),
+    invalidTime: dayjs().add(1,'year').endOf('day')
+})
+// 失效时间禁用1年外
+const disabledEndDate = (current) => {
+    return (
+      current < dayjs(defForm.effectiveTime).endOf('day') ||
+      current > dayjs(defForm.effectiveTime).add(1, 'year').endOf('day')
+    )
+}
+
+// 获取组织列表
+const getOrgListFun = () => {
+    getOrgList().then(res => {
+        defState.company = res.data
+    })
+}
+
+export default function AddNewUser() {
     return {
-        rules, labelCol, wrapperCol, type, certificate
+        rules, labelCol, wrapperCol, type, certificate, defForm, defState, disabledEndDate, getOrgListFun
     }
 }

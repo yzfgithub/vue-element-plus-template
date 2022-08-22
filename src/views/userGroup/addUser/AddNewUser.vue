@@ -1,7 +1,7 @@
 <template>
     <div id="new-user-modal"></div>
     <a-modal
-    v-model:visible="modelVisible"
+    v-model:visible="modelShow"
     title="添加成员"
     :width="838"
     @cancel="handleCancel"
@@ -161,7 +161,7 @@
                 format="YYYY-MM-DD"
                 style="width: 290px;"
                 disabled
-                :getCalendarContainer="
+                :getPopupContainer="
                     trigger => {
                     return trigger.parentNode
                     }
@@ -176,7 +176,7 @@
                 format="YYYY-MM-DD"
                 style="width: 290px;"
                 :disabled-date="disabledEndDate"
-                :getCalendarContainer="
+                :getPopupContainer="
                     trigger => {
                     return trigger.parentNode
                     }
@@ -192,50 +192,42 @@
 </template>
 
 <script setup>
-    import { defineComponent, toRefs, ref, reactive, watch, defineProps, defineEmits, onMounted } from 'vue';
+    import { toRefs, ref, defineProps, defineEmits, onMounted, computed } from 'vue';
     import AddNewUser from './AddNewUser.js'
-    import { getOrgList, addStoreUser } from '@/api/common'
+    import { addStoreUser } from '@/api/common'
     import { debounce } from 'lodash-es';
-    import moment from 'moment'
-    import { message } from 'ant-design-vue';
     import dayjs from 'dayjs'
+    import { message } from 'ant-design-vue';
     
+    // 父组件传参
     const defProps = defineProps({
         modelVisible: {
             type: Boolean,
             default: false
         }
     })
+
+    // 注册emit
     const defEmit = defineEmits(['modelCancel'])
 
-    const { modelVisible } = toRefs(defProps)
-
-    const defState = reactive({
-        company: [],
-    })
-    const defForm = reactive({
-        credentialsType: 1,
-        type: 1,
-        effectiveTime: moment(new Date()),
-        invalidTime: dayjs(moment(new Date()).add(1, 'Y').endOf('day').format('YYYY-MM-DD'), 'YYYY-MM-DD')
-    })
-
-
-    const { rules, labelCol, wrapperCol, type, certificate } = AddNewUser()
+    const { rules, labelCol, wrapperCol, type, certificate, defForm, defState, disabledEndDate, getOrgListFun } = AddNewUser()
     const newUserFormRef = ref()
 
-    const getOrgListFun = () => {
-        getOrgList().then(res => {
-            defState.company = res.data
-        })
-    }
+    const modelShow = computed({
+      get: () => {
+          return defProps.modelVisible
+        },
+      set: () => {}
+    })
 
+    // 添加成员
     const handleSave = debounce(() => {
         newUserFormRef.value.validateFields().then(res => {
-            console.log(res);
-             defForm['effectiveTime'] = moment(defForm['effectiveTime']).format('YYYY-MM-DD')
-             defForm['invalidTime'] = moment(defForm['invalidTime']).format('YYYY-MM-DD')
-            addStoreUser(defForm).then(res => {
+             const params = Object.assign({}, res, {
+                effectiveTime: dayjs(defForm['effectiveTime']).format('YYYY-MM-DD'),
+                invalidTime: dayjs(defForm['invalidTime']).format('YYYY-MM-DD')
+             })
+            addStoreUser(params).then(res => {
                 if (res.success) {
                     message.info('保存成功')
                     this.handleCancel()
@@ -245,29 +237,27 @@
             })
 
         })
-        
     }, 300)
+    
+    // 取消添加
     const handleCancel = () => {
         newUserFormRef.value.resetFields()
         defEmit('modelCancel')
     }
-    // 失效时间禁用1年外
-    const disabledEndDate = (current) => {
-      return (
-        current < moment(defForm.effectiveTime).endOf('day') ||
-        current > moment(defForm.effectiveTime).add(1, 'Y').endOf('day')
-      )
-    }
+
+    // 绑定modal到dom
     const getContainer = () => {
         return document.getElementById("new-user-modal")
     }
 
+    // mounted执行
     onMounted(() => {
         getOrgListFun()
     })
 
+    // return
     {
-        toRefs(defState), defForm, labelCol, wrapperCol, type, certificate, modelVisible, rules, newUserFormRef, disabledEndDate, getContainer
+        toRefs(defState), defForm, labelCol, wrapperCol, type, certificate, modelShow, rules, newUserFormRef, disabledEndDate, getContainer
     }
 
 </script>

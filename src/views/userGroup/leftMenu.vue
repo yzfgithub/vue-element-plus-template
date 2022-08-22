@@ -102,6 +102,7 @@
             .count, .edit-icon{
                 width: 50px;
                 text-align: center;
+                line-height: 20px;
             }
             img{
                 display: inline-block;
