@@ -1,12 +1,12 @@
 <template>
-    <div id="add-user-box" ref="addUserBox"></div>
+    <div id="add-user-box" ref="addUserBoxRef"></div>
     <a-modal 
       v-model:visible="addUserShow"
       title="添加项目成员"
       :width="1200"
       class="user"
       :maskClosable="false"
-      :getContainer="() => $refs.addUserBox"
+      :getContainer="() => $refs.addUserBoxRef"
       @cancel="handleCancel"
     >
       <template v-slot:footer>
@@ -68,7 +68,7 @@
 </template>
 
 <script setup>
-    import { defineComponent, toRefs, ref, reactive, computed, defineProps, defineEmits, getCurrentInstance } from 'vue';
+    import { defineComponent, toRefs, ref, reactive, computed, defineProps, defineEmits, onUnmounted, onMounted } from 'vue';
     import { queryUserByFullName, postMemberGroupMember } from '@/api/common'
     import { debounce, difference } from 'lodash-es';
     import { message } from 'ant-design-vue';
@@ -109,6 +109,7 @@
     let rightTableData = []
 
     let userVisible = ref(false)
+    const addUserBoxRef = ref()
 
     const leftColumns = [
         {
@@ -129,14 +130,13 @@
         }
       ]
 
-    const { appContext } = getCurrentInstance()
     
     const handleCancel = () => {
         defEmit('closeAddUserModal')
     }
     const addMemberOk = () => {
       if (rightTableData.length <= 0) {
-        appContext.config.globalProperties.$message.warning('请添加成员')
+        message.warning('请添加成员')
       } else {
         const memberList = rightTableData.map(item => {
           return Object.assign({}, item, {
@@ -148,12 +148,12 @@
         })
         postMemberGroupMember({memberList: memberList, groupId: router.currentRoute.value.params.id }).then(res=> {
           if (res.success) {
-            appContext.config.globalProperties.$message.success('添加成员成功')
+            message.success('添加成员成功')
             store.dispatch('getGroupListActions');
             defEmit('addNewUserEmit')
             handleCancel()
           } else {
-            appContext.config.globalProperties.$message.error(res.msg)
+            message.error(res.msg)
           }
         })
       }
@@ -194,7 +194,7 @@
             })
             defState.memberData = leftTableData.concat(rightTableData)
           } else {
-            appContext.config.globalProperties.$message.error(res.msg)
+            message.error(res.msg)
           }
         })
       }
@@ -216,8 +216,18 @@
       }
     }
 
+    onMounted(() => {
+        message.config({
+            getContainer: () => addUserBoxRef.value
+        })
+    })
+
+    onUnmounted(() => {
+        message.destroy()
+    })
+
     {
-        toRefs(defComponents), addUserShow, toRefs(defState), transfer, leftColumns, getRowSelection, userVisible
+        toRefs(defComponents), addUserShow, toRefs(defState), transfer, leftColumns, getRowSelection, userVisible, addUserBoxRef
     }
 </script>
 

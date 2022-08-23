@@ -1,11 +1,11 @@
 <template>
-    <div id="new-user-modal" ref="newUserModal"></div>
+    <div id="new-user-modal" ref="newUserModalRef"></div>
     <a-modal
     v-model:visible="modelShow"
     title="添加成员"
     :width="838"
     @cancel="handleCancel"
-    :getContainer="() => $refs.newUserModal"
+    :getContainer="() => $refs.newUserModalRef"
     >
     <template v-slot:footer class="custom-footer-btn">
         <a-button type="primary" @click="handleSave"> 保存 </a-button>
@@ -192,7 +192,7 @@
 </template>
 
 <script setup>
-    import { toRefs, ref, defineProps, defineEmits, onMounted, computed, getCurrentInstance } from 'vue';
+    import { toRefs, ref, defineProps, defineEmits, onMounted, computed, onUnmounted } from 'vue';
     import AddNewUser from './AddNewUser.js'
     import { addStoreUser } from '@/api/common'
     import { debounce } from 'lodash-es';
@@ -212,7 +212,7 @@
 
     const { rules, labelCol, wrapperCol, type, certificate, defForm, defState, disabledEndDate, getOrgListFun } = AddNewUser()
     const newUserFormRef = ref()
-    const { appContext } = getCurrentInstance()
+    const newUserModalRef = ref()
 
     const modelShow = computed({
       get: () => {
@@ -230,10 +230,10 @@
              })
             addStoreUser(params).then(res => {
                 if (res.success) {
-                    appContext.config.globalProperties.$message.success('保存成功')
+                    message.success('保存成功')
                     this.handleCancel()
                 } else {
-                    appContext.config.globalProperties.$message.error(res.msg)
+                    message.error(res.msg)
                 }
             })
 
@@ -248,12 +248,18 @@
 
     // mounted执行
     onMounted(() => {
+        message.config({
+            getContainer: () => newUserModalRef.value
+        })
         getOrgListFun()
     })
 
+    onUnmounted(() => {
+        message.destroy()
+    })
     // return
     {
-        toRefs(defState), defForm, labelCol, wrapperCol, type, certificate, modelShow, rules, newUserFormRef, disabledEndDate
+        toRefs(defState), defForm, labelCol, wrapperCol, type, certificate, modelShow, rules, newUserFormRef, disabledEndDate, newUserModalRef
     }
 
 </script>
