@@ -46,6 +46,7 @@
   import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
   import { deleteMember } from '@/api/userGroup'
   import { useStore } from 'vuex'
+  import EventBus from '@/utils/eventBus'
 
   let store = useStore()
 
@@ -165,6 +166,7 @@
   const removePerson = (arr) => {
     deleteMember(arr).then(res => {
       if(res.success) {
+        EventBus.$emit('pop',{type: 'info', msg: '移除成员成功'})
         // 成员列表重新获取
         defEmits('getList', {})
         // 清空批量数据
@@ -190,7 +192,8 @@
   // 批量移出
   const removePatchPerson = () => {
     if(!state.selectedKeys.length) {
-      message.warning('选中用户组不能为空')
+      // message.warning('选中用户组不能为空')
+      EventBus.$emit('pop',{type: 'warning', msg: '选中用户组不能为空'})
       return false
     }
     const firstName = state.selectedKeys[0].realName
@@ -221,14 +224,14 @@
     clearSelectionData
   })
 
-  onMounted(() => {
-    message.config({
-      getContainer: () => userGroupTableRef.value
-    })
-  })
-  onUnmounted(() => {
-    message.destroy()
-  })
+  // onMounted(() => {
+  //   message.config({
+  //     getContainer: () => userGroupTableRef.value
+  //   })
+  // })
+  // onUnmounted(() => {
+  //   message.destroy()
+  // })
 
   {
     columns, state, onSelectChange, cancelDeletePerson,

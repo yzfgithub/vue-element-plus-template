@@ -75,7 +75,8 @@
     import AddNewUser from './AddNewUser.vue'
     import { useRouter } from 'vue-router'
     import { useStore } from 'vuex'
-
+    import EventBus from '@/utils/eventBus'
+    
     const defProps = defineProps({
         addUserVisible: {
             type: Boolean,
@@ -136,7 +137,8 @@
     }
     const addMemberOk = () => {
       if (rightTableData.length <= 0) {
-        message.warning('请添加成员')
+        // message.warning('请添加成员')
+        EventBus.$emit('pop',{type: 'warning', msg: '请添加成员'})
       } else {
         const memberList = rightTableData.map(item => {
           return Object.assign({}, item, {
@@ -148,12 +150,15 @@
         })
         postMemberGroupMember({memberList: memberList, groupId: router.currentRoute.value.params.id }).then(res=> {
           if (res.success) {
-            message.success('添加成员成功')
+            // message.success('添加成员成功')
+            EventBus.$emit('pop',{type: 'success', msg: '添加成员成功'})
             store.dispatch('getGroupListActions');
             defEmit('addNewUserEmit')
             handleCancel()
+            // TODO 清左右表单数据
           } else {
-            message.error(res.msg)
+            // message.error(res.msg)
+            EventBus.$emit('pop',{type: 'error', msg: res.msg})
           }
         })
       }
@@ -194,7 +199,8 @@
             })
             defState.memberData = leftTableData.concat(rightTableData)
           } else {
-            message.error(res.msg)
+            // message.error(res.msg)
+            EventBus.$emit('pop',{type: 'error', msg: res.msg})
           }
         })
       }
@@ -216,15 +222,15 @@
       }
     }
 
-    onMounted(() => {
-        message.config({
-            getContainer: () => addUserBoxRef.value
-        })
-    })
+    // onMounted(() => {
+    //     message.config({
+    //         getContainer: () => addUserBoxRef.value
+    //     })
+    // })
 
-    onUnmounted(() => {
-        message.destroy()
-    })
+    // onUnmounted(() => {
+    //     message.destroy()
+    // })
 
     {
         toRefs(defComponents), addUserShow, toRefs(defState), transfer, leftColumns, getRowSelection, userVisible, addUserBoxRef

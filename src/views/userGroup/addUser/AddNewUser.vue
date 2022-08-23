@@ -198,6 +198,7 @@
     import { debounce } from 'lodash-es';
     import dayjs from 'dayjs'
     import { message } from 'ant-design-vue';
+    import EventBus from '@/utils/eventBus'
     
     // 父组件传参
     const defProps = defineProps({
@@ -230,10 +231,12 @@
              })
             addStoreUser(params).then(res => {
                 if (res.success) {
-                    message.success('保存成功')
+                    EventBus.$emit('pop',{type: 'success', msg: '保存成功'})
+                    // message.success('保存成功')
                     this.handleCancel()
                 } else {
-                    message.error(res.msg)
+                    EventBus.$emit('pop',{type: 'error', msg: res.msg})
+                    // message.error(res.msg)
                 }
             })
 
@@ -248,15 +251,15 @@
 
     // mounted执行
     onMounted(() => {
-        message.config({
-            getContainer: () => newUserModalRef.value
-        })
+        // message.config({
+        //     getContainer: () => newUserModalRef.value
+        // })
         getOrgListFun()
     })
 
-    onUnmounted(() => {
-        message.destroy()
-    })
+    // onUnmounted(() => {
+    //     message.destroy()
+    // })
     // return
     {
         toRefs(defState), defForm, labelCol, wrapperCol, type, certificate, modelShow, rules, newUserFormRef, disabledEndDate, newUserModalRef

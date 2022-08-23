@@ -7,7 +7,7 @@
       <div class="tc">暂无数据</div>
     </template>
 
-    <div id="page-ctn" ref="pageCtn">
+    <div id="page-ctn" ref="pageCtnRef">
       <router-view />
     </div>
 
@@ -19,10 +19,33 @@ import zh_CN from 'ant-design-vue/lib/locale-provider/zh_CN'
 import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
 dayjs.locale('zh-cn');
+import { onMounted, ref } from 'vue'
+import { message } from 'ant-design-vue'
+import EventBus from '@/utils/eventBus'
 
 export default {
+  name: 'page-ctn',
   setup() {  
-    return { zh_CN }
+    const pageCtnRef = ref()
+
+    
+
+    onMounted(() => {
+      message.config({
+        getContainer: () => pageCtnRef.value
+      })
+
+      EventBus.$on('pop', ({type, msg}) => {
+        console.log(type, msg)
+        message[type](msg)
+      })
+      // message.info('aa')
+      // setTimeout(() => {
+      //   EventBus.$emit('pop',{type: 'success', msg: 'asdf'})
+      // }, 2000)
+    })
+
+    return { zh_CN, pageCtnRef, message }
   }
 }
 </script>

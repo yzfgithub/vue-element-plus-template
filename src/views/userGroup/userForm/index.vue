@@ -109,6 +109,7 @@ import { postMemberGroup, putMember, deleteMemberById, } from '@/api/userGroup'
 import baseFun from './index'
 import { useStore } from 'vuex'
 import { debounce } from 'lodash-es';
+import EventBus from '@/utils/eventBus'
 
     let store = useStore()
     // 获取路由信息
@@ -130,11 +131,11 @@ import { debounce } from 'lodash-es';
             if(isEdit.value) {
                 params.id = groupId.value
                 putMember(params).then((res) => {
-                    res.success && (router.push(`/userGroup/userList/${groupId.value}`),store.dispatch('getGroupListActions'))
+                    res.success && (EventBus.$emit('pop',{type: 'success', msg: '编辑用户组成功'}),router.push(`/userGroup/userList/${groupId.value}`),store.dispatch('getGroupListActions'))
                 })
             } else {
                 postMemberGroup(params).then(res => {
-                    res.success && (router.push(`/userGroup/userList/${res.data}`),store.dispatch('getGroupListActions'))
+                    res.success && (EventBus.$emit('pop',{type: 'success', msg: '新增用户组成功'}),router.push(`/userGroup/userList/${res.data}`),store.dispatch('getGroupListActions'))
                 })
             }
         }).catch(err => {
