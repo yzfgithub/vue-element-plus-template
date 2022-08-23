@@ -41,8 +41,8 @@
 </template>
 
 <script setup>
-  import { defineExpose, reactive, defineProps, toRefs, defineEmits, createVNode, ref, getCurrentInstance } from 'vue'
-  import { Modal } from 'ant-design-vue';
+  import { defineExpose, reactive, defineProps, toRefs, defineEmits, createVNode, ref, onUnmounted, onMounted } from 'vue'
+  import { Modal, message } from 'ant-design-vue';
   import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
   import { deleteMember } from '@/api/userGroup'
   import { useStore } from 'vuex'
@@ -119,8 +119,6 @@
 
   const { selectionShow, dataSourceList, pagination, tableLoading, titleName } = toRefs(defProps)
 
-  const { appContext } = getCurrentInstance()
-
   const state = reactive({
     // 保存的记录，已经选择的key
     selectedKeys: [],
@@ -192,7 +190,7 @@
   // 批量移出
   const removePatchPerson = () => {
     if(!state.selectedKeys.length) {
-      appContext.config.globalProperties.$message.warning('选中用户组不能为空')
+      message.warning('选中用户组不能为空')
       return false
     }
     const firstName = state.selectedKeys[0].realName
@@ -221,6 +219,15 @@
   // 使父组件可以调用子组件方法
   defineExpose({
     clearSelectionData
+  })
+
+  onMounted(() => {
+    message.config({
+      getContainer: () => userGroupTableRef.value
+    })
+  })
+  onUnmounted(() => {
+    message.destroy()
   })
 
   {

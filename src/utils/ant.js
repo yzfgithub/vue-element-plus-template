@@ -29,7 +29,7 @@ import {
   Popconfirm,
   Popover,
   Tabs,
-  message,
+  // message,
   Timeline,
   Transfer,
   Empty,
@@ -37,10 +37,10 @@ import {
 } from 'ant-design-vue'
 
   export function registerAntVComponent (instance) {
-    message.config({
-      getContainer: () => document.getElementById('user-group')
-    })
-    instance.config.globalProperties.$message = message;
+    // message.config({
+    //   getContainer: () => document.getElementById('user-group')
+    // })
+    // instance.config.globalProperties.$message = message;
     instance
     .use(Layout)
     .use(Tabs)
