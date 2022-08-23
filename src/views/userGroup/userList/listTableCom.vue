@@ -41,8 +41,8 @@
 </template>
 
 <script setup>
-  import { defineExpose, reactive, defineProps, toRefs, defineEmits, createVNode, ref, onUnmounted, onMounted } from 'vue'
-  import { Modal, message } from 'ant-design-vue';
+  import { defineExpose, reactive, defineProps, toRefs, defineEmits, createVNode, ref} from 'vue'
+  import { Modal } from 'ant-design-vue';
   import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
   import { deleteMember } from '@/api/userGroup'
   import { useStore } from 'vuex'
@@ -166,7 +166,7 @@
   const removePerson = (arr) => {
     deleteMember(arr).then(res => {
       if(res.success) {
-        EventBus.$emit('pop',{type: 'info', msg: '移除成员成功'})
+        EventBus.$emit('pop',{type: 'success', msg: '移除成员成功'})
         // 成员列表重新获取
         defEmits('getList', {})
         // 清空批量数据
@@ -224,14 +224,6 @@
     clearSelectionData
   })
 
-  // onMounted(() => {
-  //   message.config({
-  //     getContainer: () => userGroupTableRef.value
-  //   })
-  // })
-  // onUnmounted(() => {
-  //   message.destroy()
-  // })
 
   {
     columns, state, onSelectChange, cancelDeletePerson,

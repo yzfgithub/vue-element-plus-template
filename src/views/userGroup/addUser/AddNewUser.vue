@@ -192,14 +192,13 @@
 </template>
 
 <script setup>
-    import { toRefs, ref, defineProps, defineEmits, onMounted, computed, onUnmounted } from 'vue';
+    import { toRefs, ref, defineProps, defineEmits, onMounted, computed } from 'vue';
     import AddNewUser from './AddNewUser.js'
     import { addStoreUser } from '@/api/common'
     import { debounce } from 'lodash-es';
     import dayjs from 'dayjs'
-    import { message } from 'ant-design-vue';
     import EventBus from '@/utils/eventBus'
-    
+
     // 父组件传参
     const defProps = defineProps({
         modelVisible: {
@@ -251,15 +250,9 @@
 
     // mounted执行
     onMounted(() => {
-        // message.config({
-        //     getContainer: () => newUserModalRef.value
-        // })
         getOrgListFun()
     })
 
-    // onUnmounted(() => {
-    //     message.destroy()
-    // })
     // return
     {
         toRefs(defState), defForm, labelCol, wrapperCol, type, certificate, modelShow, rules, newUserFormRef, disabledEndDate, newUserModalRef

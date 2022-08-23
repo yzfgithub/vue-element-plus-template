@@ -17,14 +17,15 @@
       <p class="notice">
         从集团成员中选择（如想添加的成员不属于本集团，请点击<span
           @click="addNewUser"
-          >添加成员</span
+          > 添加成员 </span
         >）
       </p>
       <div class="title">成员添加</div>
 
       <div class="userContent">
         <a-transfer
-          ref="transfer"
+          v-if="addUserShow"
+          ref="transferRef"
           :data-source="defState.memberData"
           :target-keys="defState.targetKeys"
           showSearch
@@ -68,15 +69,14 @@
 </template>
 
 <script setup>
-    import { defineComponent, toRefs, ref, reactive, computed, defineProps, defineEmits, onUnmounted, onMounted } from 'vue';
+    import { defineComponent, toRefs, ref, reactive, computed, defineProps, defineEmits } from 'vue';
     import { queryUserByFullName, postMemberGroupMember } from '@/api/common'
     import { debounce, difference } from 'lodash-es';
-    import { message } from 'ant-design-vue';
     import AddNewUser from './AddNewUser.vue'
     import { useRouter } from 'vue-router'
     import { useStore } from 'vuex'
     import EventBus from '@/utils/eventBus'
-    
+
     const defProps = defineProps({
         addUserVisible: {
             type: Boolean,
@@ -99,7 +99,7 @@
 
 
     let store = useStore()
-    const transfer = ref()
+    const transferRef = ref()
     const router = useRouter()
     const defState = reactive({
         targetKeys: [],
@@ -130,11 +130,15 @@
           title: '手机号'
         }
       ]
-
     
     const handleCancel = () => {
+        defState.targetKeys = []
+        defState.memberData = []
+        leftTableData = []
+        rightTableData =[]
         defEmit('closeAddUserModal')
     }
+
     const addMemberOk = () => {
       if (rightTableData.length <= 0) {
         // message.warning('请添加成员')
@@ -150,14 +154,11 @@
         })
         postMemberGroupMember({memberList: memberList, groupId: router.currentRoute.value.params.id }).then(res=> {
           if (res.success) {
-            // message.success('添加成员成功')
             EventBus.$emit('pop',{type: 'success', msg: '添加成员成功'})
             store.dispatch('getGroupListActions');
             defEmit('addNewUserEmit')
             handleCancel()
-            // TODO 清左右表单数据
           } else {
-            // message.error(res.msg)
             EventBus.$emit('pop',{type: 'error', msg: res.msg})
           }
         })
@@ -199,7 +200,6 @@
             })
             defState.memberData = leftTableData.concat(rightTableData)
           } else {
-            // message.error(res.msg)
             EventBus.$emit('pop',{type: 'error', msg: res.msg})
           }
         })
@@ -222,18 +222,8 @@
       }
     }
 
-    // onMounted(() => {
-    //     message.config({
-    //         getContainer: () => addUserBoxRef.value
-    //     })
-    // })
-
-    // onUnmounted(() => {
-    //     message.destroy()
-    // })
-
     {
-        toRefs(defComponents), addUserShow, toRefs(defState), transfer, leftColumns, getRowSelection, userVisible, addUserBoxRef
+        toRefs(defComponents), addUserShow, toRefs(defState), transferRef, leftColumns, getRowSelection, userVisible, addUserBoxRef
     }
 </script>
 
