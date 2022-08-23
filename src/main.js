@@ -29,6 +29,8 @@ function render(props = {}) {
     instance.use(router)
     instance.use(store)
     instance.mount(container ? container.querySelector('#app') : '#app')
+
+    console.log(instance,'instance')
 }
 
 // 独立运行时
@@ -44,8 +46,7 @@ if (!window.__POWERED_BY_QIANKUN__) {
     render(props)
   }
   export async function unmount() {
-    instance.$destroy()
-    instance.$el.innerHTML = ''
+    instance.unmount()
     instance = null
     router = null
   }
