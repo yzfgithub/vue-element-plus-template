@@ -35,12 +35,11 @@ const routes = [
     },{
         path: '/noData',
         component: () => import('../views/noData')
+    },{
+        path: '/:catchAll(.*)',
+        name: '404',
+        component: () => import("@/views/404")
     }
-    // ,{
-    //     path: '/:catchAll(.*)',
-    //     name: '404',
-    //     component: () => import("@/views/404")
-    // }
 ]
 
 export default base => {

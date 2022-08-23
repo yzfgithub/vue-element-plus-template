@@ -19,7 +19,7 @@ import zh_CN from 'ant-design-vue/lib/locale-provider/zh_CN'
 import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
 dayjs.locale('zh-cn');
-import { onMounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import { message } from 'ant-design-vue'
 import EventBus from '@/utils/eventBus'
 
@@ -39,10 +39,9 @@ export default {
         console.log(type, msg)
         message[type](msg)
       })
-      // message.info('aa')
-      // setTimeout(() => {
-      //   EventBus.$emit('pop',{type: 'success', msg: 'asdf'})
-      // }, 2000)
+    })
+    onUnmounted(() => {
+      EventBus.$off('pop');
     })
 
     return { zh_CN, pageCtnRef, message }
