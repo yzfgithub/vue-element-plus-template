@@ -21,8 +21,6 @@ function render(props = {}) {
 
     router = routes('/control/gt-isc-user-group/')
 
-    console.log(router, 'router', router.options)
-
     instance = createApp(App)
 
     registerSvgComponent(instance)

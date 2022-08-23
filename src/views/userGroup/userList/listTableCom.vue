@@ -9,13 +9,13 @@
         </div>
       </div>
       <a-table
-      :scroll="{ y: 600 }"
       :row-selection="selectionShow ? { selectedRowKeys: state.selectedRowKeys, onChange: onSelectChange } : null" 
       :dataSource="dataSourceList" 
       :columns="columns" 
       :loading="tableLoading"
       @change="tableChange"
       :rowKey="(record) => record.id"
+      class="list-table"
       :pagination="{
         pageSize: pagination.pageSize,
         pageNum: pagination.page,
@@ -41,8 +41,8 @@
 </template>
 
 <script setup>
-  import { defineExpose, reactive, defineProps, toRefs, defineEmits, createVNode, ref } from 'vue'
-  import { Modal, message } from 'ant-design-vue';
+  import { defineExpose, reactive, defineProps, toRefs, defineEmits, createVNode, ref, getCurrentInstance } from 'vue'
+  import { Modal } from 'ant-design-vue';
   import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
   import { deleteMember } from '@/api/userGroup'
   import { useStore } from 'vuex'
@@ -119,6 +119,8 @@
 
   const { selectionShow, dataSourceList, pagination, tableLoading, titleName } = toRefs(defProps)
 
+  const { appContext } = getCurrentInstance()
+
   const state = reactive({
     // 保存的记录，已经选择的key
     selectedKeys: [],
@@ -190,7 +192,7 @@
   // 批量移出
   const removePatchPerson = () => {
     if(!state.selectedKeys.length) {
-      message.warning('选中用户组不能为空')
+      appContext.config.globalProperties.$message.warning('选中用户组不能为空')
       return false
     }
     const firstName = state.selectedKeys[0].realName
@@ -236,11 +238,15 @@
     font-size: 12px;
   }
 }
- .table-edit {
+.table-edit {
   color:#40a9ff;
   span{
     margin: 0 10px;
     cursor: pointer;
   }    
+}
+::v-deep .list-table .ug-table {
+  height: calc(100vh - 230px);
+  overflow: auto;
 }
 </style>

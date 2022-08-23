@@ -19,21 +19,11 @@ import zh_CN from 'ant-design-vue/lib/locale-provider/zh_CN'
 import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
 dayjs.locale('zh-cn');
-import { onMounted } from 'vue'
-import { message } from 'ant-design-vue';
 
 export default {
-  setup() {
-      onMounted(() => {
-        message.config({
-            getContainer: () => {return document.getElementById('app')}
-          })
-      })
-      
+  setup() {  
     return { zh_CN }
   }
-  // components: { Empty },
-  // methods: {}
 }
 </script>
 <style lang="scss">

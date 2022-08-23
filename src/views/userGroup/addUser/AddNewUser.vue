@@ -192,7 +192,7 @@
 </template>
 
 <script setup>
-    import { toRefs, ref, defineProps, defineEmits, onMounted, computed } from 'vue';
+    import { toRefs, ref, defineProps, defineEmits, onMounted, computed, getCurrentInstance } from 'vue';
     import AddNewUser from './AddNewUser.js'
     import { addStoreUser } from '@/api/common'
     import { debounce } from 'lodash-es';
@@ -212,6 +212,7 @@
 
     const { rules, labelCol, wrapperCol, type, certificate, defForm, defState, disabledEndDate, getOrgListFun } = AddNewUser()
     const newUserFormRef = ref()
+    const { appContext } = getCurrentInstance()
 
     const modelShow = computed({
       get: () => {
@@ -229,10 +230,10 @@
              })
             addStoreUser(params).then(res => {
                 if (res.success) {
-                    message.info('保存成功')
+                    appContext.config.globalProperties.$message.success('保存成功')
                     this.handleCancel()
                 } else {
-                    message.warning(res.msg)
+                    appContext.config.globalProperties.$message.error(res.msg)
                 }
             })
 

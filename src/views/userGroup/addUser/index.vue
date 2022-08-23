@@ -68,7 +68,7 @@
 </template>
 
 <script setup>
-    import { defineComponent, toRefs, ref, reactive, computed, defineProps, defineEmits } from 'vue';
+    import { defineComponent, toRefs, ref, reactive, computed, defineProps, defineEmits, getCurrentInstance } from 'vue';
     import { queryUserByFullName, postMemberGroupMember } from '@/api/common'
     import { debounce, difference } from 'lodash-es';
     import { message } from 'ant-design-vue';
@@ -128,13 +128,15 @@
           title: '手机号'
         }
       ]
+
+    const { appContext } = getCurrentInstance()
     
     const handleCancel = () => {
         defEmit('closeAddUserModal')
     }
     const addMemberOk = () => {
       if (rightTableData.length <= 0) {
-        message.warning('请添加成员！')
+        appContext.config.globalProperties.$message.warning('请添加成员')
       } else {
         const memberList = rightTableData.map(item => {
           return Object.assign({}, item, {
@@ -146,12 +148,12 @@
         })
         postMemberGroupMember({memberList: memberList, groupId: router.currentRoute.value.params.id }).then(res=> {
           if (res.success) {
-            message.success('添加成员成功')
+            appContext.config.globalProperties.$message.success('添加成员成功')
             store.dispatch('getGroupListActions');
             defEmit('addNewUserEmit')
             handleCancel()
           } else {
-            message.error(res.msg)
+            appContext.config.globalProperties.$message.error(res.msg)
           }
         })
       }
@@ -192,7 +194,7 @@
             })
             defState.memberData = leftTableData.concat(rightTableData)
           } else {
-            message.error(res.msg)
+            appContext.config.globalProperties.$message.error(res.msg)
           }
         })
       }
