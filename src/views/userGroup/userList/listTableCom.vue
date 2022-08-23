@@ -222,11 +222,13 @@
   })
 
   onMounted(() => {
+    console.log('开始挂载')
     message.config({
       getContainer: () => userGroupTableRef.value
     })
   })
   onUnmounted(() => {
+    console.log('解除挂载')
     message.destroy()
   })
 
