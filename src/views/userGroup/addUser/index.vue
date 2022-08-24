@@ -30,7 +30,7 @@
           :target-keys="defState.targetKeys"
           showSearch
           :filter-option="
-            (inputValue, item) => item.fullName.indexOf(inputValue) !== -1
+            (inputValue, item) => item.departmentLeader.indexOf(inputValue) !== -1
           "
           @change="onChange"
           @search="handleSearch"
@@ -53,6 +53,7 @@
                 ({ key }) => ({
                   on: {
                     click: () => {
+                      console.log(key )
                       itemSelect(key, !selectedKeys.includes(key))
                     }
                   }
@@ -70,7 +71,7 @@
 
 <script setup>
     import { defineComponent, toRefs, ref, reactive, computed, defineProps, defineEmits } from 'vue';
-    import { queryUserByFullName, postMemberGroupMember } from '@/api/common'
+    import { memberAshSetting, postMemberGroupMember } from '@/api/common'
     import { debounce, difference } from 'lodash-es';
     import AddNewUser from './AddNewUser.vue'
     import { useRouter } from 'vue-router'
@@ -114,7 +115,7 @@
 
     const leftColumns = [
         {
-          dataIndex: 'fullName',
+          dataIndex: 'departmentLeader',
           title: '成员名'
         },
         {
@@ -122,11 +123,11 @@
           title: '部门'
         },
         {
-          dataIndex: 'position',
+          dataIndex: 'jobName',
           title: '职务'
         },
         {
-          dataIndex: 'phone',
+          dataIndex: 'dmobilePhoneNum',
           title: '手机号'
         }
       ]
@@ -144,14 +145,16 @@
         // message.warning('请添加成员')
         EventBus.$emit('pop',{type: 'warning', msg: '请添加成员'})
       } else {
+        console.log(rightTableData,'rightTableData')
         const memberList = rightTableData.map(item => {
           return Object.assign({}, item, {
-            departmentLeader: item.fullName,
-            dMobilePhoneNum: item.phone,
-            jobName: item.position,
-            dEmail: item.email,
+            // departmentLeader: item.departmentLeader,
+            dMobilePhoneNum: item.dmobilePhoneNum,
+            // jobName: item.jobName,
+            dEmail: item.demail,
           })
         })
+        console.log(memberList,'memberList')
         postMemberGroupMember({memberList: memberList, groupId: router.currentRoute.value.params.id }).then(res=> {
           if (res.success) {
             EventBus.$emit('pop',{type: 'success', msg: '添加成员成功'})
@@ -187,13 +190,14 @@
     const handleSearch = debounce((dir, value) => {
       if (dir === 'left') {
         if (!value) return
-        queryUserByFullName({
-            fullName: value
+        memberAshSetting({
+            userName: value,
+            groupId: router.currentRoute.value.params.id
         }).then(res => {
-          if (res.code * 1 == 200) {
+          if (res.code == 200) {
             leftTableData = res.data
             leftTableData.forEach(ele => {
-              ele['key'] = ele.userId
+              ele['key'] = ele.dmobilePhoneNum
               rightTableData = rightTableData.filter(
                 e => e.key !== ele.key
               )
@@ -218,7 +222,10 @@
         onSelect: ({ key }, selected) => {
           onItemSelect(key, selected)
         },
-        selectedRowKeys: selectedKeys
+        selectedRowKeys: selectedKeys,
+        getCheckboxProps: record => ({
+          disabled: record.type === 1
+        })
       }
     }
 

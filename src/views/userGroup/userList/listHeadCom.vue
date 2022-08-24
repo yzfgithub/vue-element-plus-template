@@ -127,6 +127,9 @@
                 border: none;
                 outline-style: none;
             }
+            ::v-deep .sort.ug-select-open .ug-select-arrow{
+                transform: rotate(180deg);
+            }
             .add-btn {
                 width: 90px;
                 font-size: 12px;

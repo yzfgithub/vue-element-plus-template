@@ -123,6 +123,12 @@ import EventBus from '@/utils/eventBus'
     // 提交操作
     const submitHandle = debounce(() => {
         formRef.value.validateFields().then(res => {
+            const midArr = editState['leaderArr'].concat(editState['memberArr']).map(item => item.dMobilePhoneNum);
+            const newArr = Array.from(new Set(midArr))
+            if(midArr.length != newArr.length) {
+                EventBus.$emit('pop',{type: 'warning', msg: '负责人和成员选择重复！'})
+                return false;
+            }
             const params = Object.assign({}, res, {
                 type: parseInt(res.type),
                 leaderList: editState['leaderArr'],
@@ -131,11 +137,23 @@ import EventBus from '@/utils/eventBus'
             if(isEdit.value) {
                 params.id = groupId.value
                 putMember(params).then((res) => {
-                    res.success && (EventBus.$emit('pop',{type: 'success', msg: '编辑用户组成功'}),router.push(`/userGroup/userList/${groupId.value}`),store.dispatch('getGroupListActions'))
+                    if(res.success) {
+                        EventBus.$emit('pop',{type: 'success', msg: '编辑用户组成功'})
+                        router.push(`/userGroup/userList/${groupId.value}`)
+                        store.dispatch('getGroupListActions')
+                    } else {
+                        EventBus.$emit('pop',{type: 'error', msg: res.msg})
+                    }
                 })
             } else {
                 postMemberGroup(params).then(res => {
-                    res.success && (EventBus.$emit('pop',{type: 'success', msg: '新增用户组成功'}),router.push(`/userGroup/userList/${res.data}`),store.dispatch('getGroupListActions'))
+                    if(res.success) {
+                        EventBus.$emit('pop',{type: 'success', msg: '新增用户组成功'})
+                        router.push(`/userGroup/userList/${res.data}`)
+                        store.dispatch('getGroupListActions')
+                    } else {
+                        EventBus.$emit('pop',{type: 'error', msg: res.msg})
+                    }
                 })
             }
         }).catch(err => {

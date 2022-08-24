@@ -1,8 +1,15 @@
 <template>
     <div class="left-box">
         <div class="left-handle">
-            <div class="title">用户组 （{{userGroupList.data.length}}）</div>
+            <div class="title">用户组 （{{groupList.length}}）</div>
             <div @click="newGroup" class="add-btn">新增用户组</div>
+        </div>
+        <div style="margin-bottom: 22px">
+             <a-input v-model:value="searchName" @change="changeInput" @pressEnter="onSearch" style="width: 260px;margin-right: 20px;" placeholder="搜索用户组">
+                <template #suffix>
+                    <search-outlined @click="onSearch" />
+                </template>
+            </a-input>
         </div>
         <div class="group-box">
             <div v-for="(item, index) in userGroupList.data" :key="index" @click="showGroup(item.id)" class="group-item">
@@ -18,8 +25,8 @@
 </template>
 
 <script setup>
-    import { defineComponent, onMounted, toRefs, watch, reactive } from 'vue'
-    import { FormOutlined } from '@ant-design/icons-vue';
+    import { defineComponent, toRefs, watch, reactive, ref, computed } from 'vue'
+    import { FormOutlined, SearchOutlined } from '@ant-design/icons-vue';
     import { useRouter } from 'vue-router'
     import { useStore } from 'vuex'
 
@@ -29,14 +36,26 @@
     // components
     const defComponents = defineComponent({
         components: {
-            FormOutlined
+            FormOutlined, SearchOutlined
         }
     })
 
-    
+    let groupList = []
+
     let userGroupList = reactive({
         data: []
     })
+    let searchName = ref('')
+
+    const onSearch = () => {
+        // 过滤数据
+        userGroupList['data'] = groupList.filter(item => item.name.indexOf(searchName.value) > -1)
+    }
+    const changeInput = (e) => {
+        searchName.value = e.target.value
+    }
+
+
     // 二级路由跳转
     const newGroup = () => {
         router.push(`/userGroup/groupCreate`)
@@ -49,14 +68,24 @@
     }
 
     watch(()=>store.state.userGroupStore.groupList,(newV, oldV) => {
-        userGroupList['data'] = newV
+        groupList = newV
+        userGroupList['data'] = groupList.filter(item => item.name.indexOf(searchName.value) > -1)
     }, {
         deep: true
     })
 
+    watch(() => searchName.value, (newV) => {
+        userGroupList['data'] = groupList.filter(item => item.name.indexOf(newV) > -1)
+    })
+
+    // const groupList = computed({
+    //     get: userGroupList['data'].filter(item => item.name.indexOf(searchName.value) > -1),
+    //     set: () => {}
+    // })
+
     // 返回
     {
-        toRefs(defComponents), newGroup, editGroup, showGroup, userGroupList
+        toRefs(defComponents), newGroup, editGroup, showGroup, userGroupList, onSearch, changeInput, searchName, groupList
     }
 </script>
 
@@ -85,7 +114,7 @@
         }
     }
     .group-box{
-        height: calc(100% - 70px);
+        height: calc(100% - 130px);
         overflow-y: auto;
         .group-item{
             display: flex;

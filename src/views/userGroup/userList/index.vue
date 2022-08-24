@@ -64,7 +64,7 @@
 
             getDetail(newId)
             
-            querySearch({sort: '1'})
+            querySearch({sort: 1})
         }
     },{ immediate: true });
 

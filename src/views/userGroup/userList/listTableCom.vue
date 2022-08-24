@@ -179,9 +179,9 @@
   // 单人移出事件
   const removeSinglePerson = (record) => {
     Modal.confirm({
-        title: '删除用户组成员',
+        title: `移出用户组：${record.realName}`,
         icon: <ExclamationCircleOutlined style="color: #469ffb;" />,
-        content: `是否删除成员${record.realName}？`,
+        content: `是否将【${record.realName}】移出【${titleName.value}】用户组？`,
         getContainer: () => userGroupTableRef.value,
         onOk() {
             removePerson([record.id])

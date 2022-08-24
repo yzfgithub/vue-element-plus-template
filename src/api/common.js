@@ -5,9 +5,9 @@ import Request from '../utils/request';
  * @param {fullName} params 
  * @returns 
  */
-export async function queryUserByFullName(params) {
+export async function memberAshSetting(params) {
   return Request({
-    url: 'appStore/v1.0/dashboard/queryUserByFullName',
+    url: 'appStore/v1.0/dashboard/memberAshSetting',
     method: 'post',
     data: params
   });
