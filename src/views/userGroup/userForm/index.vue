@@ -175,7 +175,14 @@ import EventBus from '@/utils/eventBus'
             getContainer: () => userGroupFormRef.value,
             onOk() {
                 deleteMemberById(router.currentRoute.value.params.id).then(res => {
-                    router.go('/userGroup/groupEdit')
+                    if(res.success) {
+                        EventBus.$emit('pop',{type: 'success', msg: '删除用户组成功'})
+                        router.push('/userGroup/groupEdit')
+                        store.dispatch('getGroupListActions')
+                    } else {
+                        EventBus.$emit('pop',{type: 'error', msg: res.msg})
+                    }
+                    
                 })
             },
             onCancel() {},

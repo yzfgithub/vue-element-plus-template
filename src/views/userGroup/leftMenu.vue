@@ -1,7 +1,7 @@
 <template>
     <div class="left-box">
         <div class="left-handle">
-            <div class="title">用户组 （{{groupList.length}}）</div>
+            <div class="title">用户组 （{{userGroupList.total}}）</div>
             <div @click="newGroup" class="add-btn">新增用户组</div>
         </div>
         <div style="margin-bottom: 22px">
@@ -43,7 +43,8 @@
     let groupList = []
 
     let userGroupList = reactive({
-        data: []
+        data: [],
+        total: 0
     })
     let searchName = ref('')
 
@@ -70,6 +71,7 @@
     watch(()=>store.state.userGroupStore.groupList,(newV, oldV) => {
         groupList = newV
         userGroupList['data'] = groupList.filter(item => item.name.indexOf(searchName.value) > -1)
+        userGroupList.total = newV.length
     }, {
         deep: true
     })
