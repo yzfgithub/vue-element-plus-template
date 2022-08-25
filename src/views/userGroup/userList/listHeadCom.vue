@@ -14,7 +14,7 @@
                 <a-select
                 ref="select"
                 v-model:value="sortType"
-                style="width: 120px"
+                style="width: 120px !important;"
                 @change="handleChange"
                 class="sort"
                 :getPopupContainer="
@@ -117,7 +117,7 @@
             border-color: #40a9ff;
         }
         .right-handle {
-            width: 580px;
+            width: 620px;
             display: flex;
             .sort {
                 width: 100px !important;
