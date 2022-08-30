@@ -116,7 +116,7 @@
         }
     }
     .group-box{
-        height: calc(100% - 130px);
+        height: calc(100% - 186px);
         overflow-y: auto;
         .group-item{
             display: flex;

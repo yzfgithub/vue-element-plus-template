@@ -57,10 +57,14 @@ const rules = {
     ],
     email: [
         {
-            type: 'email',
             required: true,
             message: '请输入邮箱',
             trigger: 'blur'
+        },
+        {
+            message: '邮箱格式不正确',
+            trigger: 'blur',
+            pattern: /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
         }
     ],
     orgCode: [

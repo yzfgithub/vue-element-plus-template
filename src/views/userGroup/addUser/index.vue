@@ -53,7 +53,6 @@
                 ({ key }) => ({
                   on: {
                     click: () => {
-                      console.log(key )
                       itemSelect(key, !selectedKeys.includes(key))
                     }
                   }
@@ -141,12 +140,11 @@
     }
 
     const addMemberOk = () => {
-      if (rightTableData.length <= 0) {
-        // message.warning('请添加成员')
-        EventBus.$emit('pop',{type: 'warning', msg: '请添加成员'})
+      const midRightTableData = rightTableData.filter(val => val.type === 0)
+      if (midRightTableData.length <= 0) {
+        EventBus.$emit('pop',{type: 'warning', msg: '至少选择一名新成员'})
       } else {
-        console.log(rightTableData,'rightTableData')
-        const memberList = rightTableData.map(item => {
+        const memberList = midRightTableData.map(item => {
           return Object.assign({}, item, {
             // departmentLeader: item.departmentLeader,
             dMobilePhoneNum: item.dmobilePhoneNum,
@@ -154,7 +152,6 @@
             dEmail: item.demail,
           })
         })
-        console.log(memberList,'memberList')
         postMemberGroupMember({memberList: memberList, groupId: router.currentRoute.value.params.id }).then(res=> {
           if (res.success) {
             EventBus.$emit('pop',{type: 'success', msg: '添加成员成功'})
@@ -175,6 +172,7 @@
     }
 
     const onChange = (nextTargetKeys) => {
+      rightTableData = []
       defState.targetKeys = nextTargetKeys
       defState.targetKeys.forEach(item => {
         defState.memberData.forEach(ele => {
