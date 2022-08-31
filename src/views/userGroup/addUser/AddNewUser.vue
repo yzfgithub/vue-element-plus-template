@@ -232,7 +232,7 @@
                 if (res.success) {
                     EventBus.$emit('pop',{type: 'success', msg: '保存成功'})
                     // message.success('保存成功')
-                    this.handleCancel()
+                    handleCancel()
                 } else {
                     EventBus.$emit('pop',{type: 'error', msg: res.msg})
                     // message.error(res.msg)

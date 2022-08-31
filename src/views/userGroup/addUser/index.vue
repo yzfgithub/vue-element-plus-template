@@ -30,7 +30,7 @@
           :target-keys="defState.targetKeys"
           showSearch
           :filter-option="
-            (inputValue, item) => item.departmentLeader.indexOf(inputValue) !== -1
+            (inputValue, item) => (item.departmentLeader.indexOf(inputValue) !== -1 || item.userName.indexOf(inputValue) !== -1 )
           "
           @change="onChange"
           @search="handleSearch"
