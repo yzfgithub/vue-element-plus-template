@@ -160,7 +160,12 @@ module.exports = {
       '/appStore': {
         // target: 'http://10.1.71.72:8891',
         // 测试
-        target: 'http://10.152.160.27:60037',
+        // target: 'http://10.152.160.27:60037',
+        target: 'https://cloudtest.gt.cn',
+        changeOrigin: true
+      },
+      '/vpnms': {
+        target: 'http://cloudtest.gt.cn',
         changeOrigin: true
       }
     },
